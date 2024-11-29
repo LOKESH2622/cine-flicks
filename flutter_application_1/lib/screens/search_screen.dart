@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/user.dart';
 import '../data/dummy_data.dart';
+import '../models/user.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

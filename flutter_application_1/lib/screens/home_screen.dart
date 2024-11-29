@@ -28,18 +28,23 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListTile(
-                  leading: const CircleAvatar(
-                    //backgroundImage: NetworkImage(post.userImage),
+                  // ignore: prefer_const_constructors
+                  leading: CircleAvatar(
+                   // backgroundImage: NetworkImage(post.userImage),
                   ),
                   title: Text(post.userName),
                   subtitle: Text(post.timeAgo),
+                  onTap: () {
+                    final user = users.firstWhere((u) => u.name == post.userName);
+                    Navigator.pushNamed(context, '/profile', arguments: user);
+                  },
                 ),
-                //Image.network(
+                // //Image.network(
                 //   post.imageUrl,
-                //   fit: oxFit.cover,
+                //   fit: BoxFit.cover,
                 //   height: 300,
                 //   width: double.infinity,
-                // ),//
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
