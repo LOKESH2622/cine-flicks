@@ -60,18 +60,18 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
   filteredUsers = users.where((user) {
     // Ensure `name`, `role`, and `location` are non-null before processing
-    bool matchesQuery = (user.name?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
-        (user.role?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
-        (user.location?.toLowerCase().contains(query.toLowerCase()) ?? false);
+    bool matchesQuery = (user.name.toLowerCase().contains(query.toLowerCase()) ?? false) ||
+        (user.role.toLowerCase().contains(query.toLowerCase()) ?? false) ||
+        (user.location.toLowerCase().contains(query.toLowerCase()) ?? false);
 
     // Check for proximity filtering
-    if (currentPosition != null && user.latitude != null && user.longitude != null) {
+    if (currentPosition != null) {
 
       double distance = _calculateDistance(
         currentPosition!.latitude,
         currentPosition!.longitude,
-        user.latitude!,
-        user.longitude!,
+        user.latitude,
+        user.longitude,
       );
       user.distance = distance; // Update user's distance
       return matchesQuery || distance <= 50; // Example: filter within 50 km
@@ -182,8 +182,8 @@ class UserSearchDelegate extends SearchDelegate {
     }).toList();
 
     if (currentPosition != null) {
-      queryResults.forEach((user) {
-        if (user.latitude != null && user.longitude != null) {
+      for (var user in queryResults) {
+        if (user.longitude != null) {
           user.distance = _calculateDistance(
             currentPosition!.latitude,
             currentPosition!.longitude,
@@ -191,7 +191,7 @@ class UserSearchDelegate extends SearchDelegate {
             user.longitude,
           );
         }
-      });
+      }
 
       queryResults.sort((a, b) => (a.distance ?? double.infinity)
           .compareTo(b.distance ?? double.infinity));

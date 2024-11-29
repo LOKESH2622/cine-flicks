@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';  // Import the HomeScreen
 import 'screens/login_screen.dart';
-import 'screens/profile_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/add_post_screen.dart';
 import 'screens/notification_screen.dart';
 import 'screens/chat_box_screen.dart';
-import 'screens/jobs_screen.dart';  // Import the AddPostScreen
+import 'screens/jobs_screen.dart';  
+import 'screens/post_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,13 +43,13 @@ class _MyAppState extends State<MyApp> {
               onThemeChanged: _toggleTheme,
             ),
         '/search': (context) => const SearchScreen(),
-        '/profile': (context) => const ProfileScreen(),
         '/add-post': (context) => const AddPostScreen(), 
         '/notifications': (context) => const NotificationScreen(),
         '/chat': (context) => const ChatBoxScreen(),
         '/jobs': (context) => const JobsScreen(),
-        // Add this route
+        '/post-details': (context) => ProfileScreen(), // Use the imported class
       },
     );
   }
 }
+

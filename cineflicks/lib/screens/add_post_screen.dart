@@ -54,7 +54,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
     // Create a new post
     final newPost = Post(
-      userName: 'User123', // Replace with logged-in user's name dynamically
+      userName: 'Lokesh', // Replace with logged-in user's name dynamically
       userImage: 'https://example.com/images/profile.jpg', // Replace with user's profile image or default
       imageUrl: _selectedMedia!.path,
       caption: caption,
@@ -86,7 +86,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               // Show preview of selected media
               Column(
                 children: [
-                  Text(
+                  const Text(
                     'Selected Media:',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),

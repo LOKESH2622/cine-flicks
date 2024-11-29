@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.pushNamed(context, '/jobs');
         break;
       case 4: // Profile
-        Navigator.pushNamed(context, '/profile');
+        Navigator.pushNamed(context, '/post-details');
         break;
     }
   },
@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: widget.isDarkMode ? Colors.white : Colors.black, // Light icons in dark mode, dark in sunny mode
     ),
     CircleAvatar(
-      backgroundImage: const AssetImage('lib/images/profile.png'),
+      backgroundImage: const AssetImage('lib/images/pixel.png'),
       backgroundColor: widget.isDarkMode ? Colors.white : Colors.black, // Inverted circle avatar background
       radius: 12,
     ),
