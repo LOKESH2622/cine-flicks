@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/db/mongodb.dart';
-import 'screens/home_screen.dart';  // Import the HomeScreen
+import 'screens/home_screen.dart'; // Import the HomeScreen
 import 'screens/login_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/add_post_screen.dart';
 import 'screens/notification_screen.dart';
 import 'screens/chat_box_screen.dart';
-import 'screens/jobs_screen.dart';  
+import 'screens/jobs_screen.dart';
 import 'screens/post_detail_screen.dart';
 import "screens/personal_chat_screen.dart";
 
@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               isDarkMode: _isDarkMode,
               onThemeChanged: _toggleTheme,
             ),
-        '/search': (context) => const SearchScreen(),
+        '/search': (context) => const SearchPage(),
         '/add-post': (context) => const AddPostScreen(),
         '/notifications': (context) => const NotificationScreen(),
         '/chat': (context) => const ChatBoxScreen(),

@@ -1,252 +1,180 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import '../data/dummy_data.dart';
-import '../models/user.dart';
-import 'dart:math';
+import 'package:my_flutter_app/screens/profilepage.dart';
+import '../screens/profilepage.dart'; // Import the ProfilePage
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
-  List<User> filteredUsers = [];
-  Position? currentPosition;
+class _SearchPageState extends State<SearchPage> {
+  final TextEditingController _searchController = TextEditingController();
+  String selectedProfession = 'All';
+  final List<String> professions = [
+    'All',
+    'Actor',
+    'Cinematographer',
+    'Editor',
+    'Lyricist',
+    'Musician',
+    'Director',
+    'Writer'
+  ];
+
+  final List<Map<String, dynamic>> users = [
+    {
+      'name': 'valan amal',
+      'profession': 'Actor',
+      'location': 'Thiruvanamalai',
+      'experience': 5,
+      'rating': 4.8,
+      'profileImage': 'https://i.ibb.co/WgqGN5b/Whats-App-Image-2024-11-25-at-12-12-46-de6ce725.jpg',
+    },
+    {
+      'name': 'sairam',
+      'profession': 'Musician',
+      'location': 'Chennai',
+      'experience': 7,
+      'rating': 4.5,
+      'profileImage': 'https://i.ibb.co/PMtd0Rd/Whats-App-Image-2024-11-30-at-17-11-43-cc12c275.jpg',
+    },
+    {
+      'name': 'Lokesh',
+      'profession': 'Director',
+      'location': 'Chennai',
+      'experience': 4,
+      'rating': 4.2,
+      'profileImage': 'https://i.ibb.co/d0zqH7s/police.jpg',
+    },
+  ];
+
+  List<Map<String, dynamic>> filteredUsers = [];
 
   @override
   void initState() {
     super.initState();
-    filteredUsers = users;
-    _getCurrentLocation();
+    filteredUsers = users; // Initially show all users
   }
 
-  // Function to get the current location of the user
-  Future<void> _getCurrentLocation() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      setState(() {
-        currentPosition = position;
-      });
-    } catch (e) {
-      print("Error getting current location: $e");
-    }
-  }
-
-  // Function to calculate distance between two coordinates
-  double _calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const double earthRadius = 6371; // Radius of Earth in kilometers
-    double dLat = _degreesToRadians(lat2 - lat1);
-    double dLon = _degreesToRadians(lon2 - lon1);
-
-    double a = 
-        (sin(dLat / 2) * sin(dLat / 2)) +
-        cos(_degreesToRadians(lat1)) *
-            cos(_degreesToRadians(lat2)) *
-            (sin(dLon / 2) * sin(dLon / 2));
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    return earthRadius * c;
-  }
-
-  double _degreesToRadians(double degrees) {
-    return degrees * (pi / 180);
-  }
-
-  // Updated filter function to include geolocation-based filtering
-  void _filterUsers(String query) {
+  void _filterUsers() {
+    String query = _searchController.text.toLowerCase();
     setState(() {
-  filteredUsers = users.where((user) {
-    // Ensure `name`, `role`, and `location` are non-null before processing
-    bool matchesQuery = (user.name.toLowerCase().contains(query.toLowerCase()) ?? false) ||
-        (user.role.toLowerCase().contains(query.toLowerCase()) ?? false) ||
-        (user.location.toLowerCase().contains(query.toLowerCase()) ?? false);
-
-    // Check for proximity filtering
-    if (currentPosition != null) {
-
-      double distance = _calculateDistance(
-        currentPosition!.latitude,
-        currentPosition!.longitude,
-        user.latitude,
-        user.longitude,
-      );
-      user.distance = distance; // Update user's distance
-      return matchesQuery || distance <= 50; // Example: filter within 50 km
-    }
-
-    return matchesQuery; // Return only query match if no location data is available
-  }).toList();
-
-  // Sort users by distance if geolocation is available
-  if (currentPosition != null) {
-    filteredUsers.sort((a, b) {
-      return (a.distance ?? double.infinity).compareTo(b.distance ?? double.infinity);
+      filteredUsers = users.where((user) {
+        bool matchesProfession =
+            selectedProfession == 'All' || user['profession'] == selectedProfession;
+        bool matchesQuery = user['name'].toLowerCase().contains(query);
+        return matchesProfession && matchesQuery;
+      }).toList();
     });
-  }
-});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Users'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: UserSearchDelegate(
-                  users: users,
-                  currentPosition: currentPosition,
-                  onSearchResult: (filteredResults) {
-                    setState(() {
-                      filteredUsers = filteredResults;
-                    });
-                  },
-                ),
-              );
-            },
-          ),
-        ],
+        title: const Text('Search Personalities'),
+        centerTitle: true,
       ),
-      body: currentPosition == null
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: filteredUsers.length,
-              itemBuilder: (context, index) {
-                final user = filteredUsers[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(user.profileImage),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: (value) => _filterUsers(),
+                    decoration: const InputDecoration(
+                      labelText: 'Search',
+                      hintText: 'Search by name',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                  title: Text(user.name),
-                  subtitle: Text(
-                    '${user.role} - ${user.location} '
-                    '${user.distance != null ? "(${user.distance!.toStringAsFixed(2)} km)" : ""}',
-                  ), // Display distance if available
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/profile',
-                      arguments: user,
-                    );
+                ),
+                const SizedBox(width: 10),
+                DropdownButton<String>(
+                  value: selectedProfession,
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        selectedProfession = value;
+                        _filterUsers();
+                      });
+                    }
                   },
-                );
-              },
+                  items: professions
+                      .map((profession) => DropdownMenuItem<String>(
+                            value: profession,
+                            child: Text(profession),
+                          ))
+                      .toList(),
+                ),
+              ],
             ),
-    );
-  }
-}
-
-class UserSearchDelegate extends SearchDelegate {
-  final List<User> users;
-  final Position? currentPosition;
-  final Function(List<User>) onSearchResult;
-
-  UserSearchDelegate({
-    required this.users,
-    required this.currentPosition,
-    required this.onSearchResult,
-  });
-
-  // Function to calculate distance between two coordinates
-  double _calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const double earthRadius = 6371; // Radius of Earth in kilometers
-    double dLat = _degreesToRadians(lat2 - lat1);
-    double dLon = _degreesToRadians(lon2 - lon1);
-
-    double a = 
-        (sin(dLat / 2) * sin(dLat / 2)) +
-        cos(_degreesToRadians(lat1)) *
-            cos(_degreesToRadians(lat2)) *
-            (sin(dLon / 2) * sin(dLon / 2));
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    return earthRadius * c;
-  }
-
-  double _degreesToRadians(double degrees) {
-    return degrees * (pi / 180);
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final queryResults = users.where((user) {
-      return user.name.toLowerCase().contains(query.toLowerCase()) ||
-          user.role.toLowerCase().contains(query.toLowerCase()) ||
-          user.location.toLowerCase().contains(query.toLowerCase());
-    }).toList();
-
-    if (currentPosition != null) {
-      for (var user in queryResults) {
-        if (user.longitude != null) {
-          user.distance = _calculateDistance(
-            currentPosition!.latitude,
-            currentPosition!.longitude,
-            user.latitude,
-            user.longitude,
-          );
-        }
-      }
-
-      queryResults.sort((a, b) => (a.distance ?? double.infinity)
-          .compareTo(b.distance ?? double.infinity));
-    }
-
-    return ListView.builder(
-      itemCount: queryResults.length,
-      itemBuilder: (context, index) {
-        final user = queryResults[index];
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(user.profileImage),
-          ),
-          title: Text(user.name),
-          subtitle: Text(
-            '${user.role} - ${user.location} '
-            '${user.distance != null ? "(${user.distance!.toStringAsFixed(2)} km)" : ""}',
-          ), // Display distance if available
-          onTap: () {
-            close(context, null);
-            Navigator.pushNamed(
-              context,
-              '/profile',
-              arguments: user,
-            );
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return buildSuggestions(context);
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
+            const SizedBox(height: 16),
+            const Text(
+              'Nearby Personalities:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredUsers.length,
+                itemBuilder: (context, index) {
+                  final user = filteredUsers[index];
+                  return Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(user['profileImage']),
+                      ),
+                      title: Text(user['name']),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Profession: ${user['profession']}'),
+                          Text('Location: ${user['location']}'),
+                          Text('Experience: ${user['experience']} years'),
+                          Text('Rating: ${user['rating']} ⭐'),
+                        ],
+                      ),
+                      onTap: () {
+                        // Navigate to the ProfilePage when a user is tapped
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(user: user),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Explore Professions:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: professions
+                  .where((profession) => profession != 'All')
+                  .map((profession) => Chip(
+                        label: Text(profession),
+                      ))
+                  .toList(),
+            ),
+          ],
+        ),
       ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
     );
   }
 }
