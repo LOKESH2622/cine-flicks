@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/db/mongodb.dart';
 import 'screens/home_screen.dart';  // Import the HomeScreen
 import 'screens/login_screen.dart';
 import 'screens/search_screen.dart';
@@ -7,8 +8,11 @@ import 'screens/notification_screen.dart';
 import 'screens/chat_box_screen.dart';
 import 'screens/jobs_screen.dart';  
 import 'screens/post_detail_screen.dart';
+import "screens/personal_chat_screen.dart";
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MongoDatabase.connect();
   runApp(const MyApp());
 }
 
@@ -43,13 +47,16 @@ class _MyAppState extends State<MyApp> {
               onThemeChanged: _toggleTheme,
             ),
         '/search': (context) => const SearchScreen(),
-        '/add-post': (context) => const AddPostScreen(), 
+        '/add-post': (context) => const AddPostScreen(),
         '/notifications': (context) => const NotificationScreen(),
         '/chat': (context) => const ChatBoxScreen(),
         '/jobs': (context) => const JobsScreen(),
-        '/post-details': (context) => ProfileScreen(), // Use the imported class
+        '/post-details': (context) => ProfileScreen(),
+        '/personal_chat': (context) {
+          final username = ModalRoute.of(context)!.settings.arguments as String;
+          return PersonalChatScreen(username: username);
+        },
       },
     );
   }
 }
-
