@@ -48,6 +48,22 @@ class _SearchPageState extends State<SearchPage> {
       'rating': 4.2,
       'profileImage': 'https://i.ibb.co/d0zqH7s/police.jpg',
     },
+        {
+      'name': 'Lokesh',
+      'profession': 'Editor',
+      'location': 'Chennai',
+      'experience': 4,
+      'rating': 4.2,
+      'profileImage': 'https://i.ibb.co/d0zqH7s/police.jpg',
+    },
+    {
+      'name': 'sairam',
+      'profession': 'Cinematographer',
+      'location': 'Chennai',
+      'experience': 7,
+      'rating': 4.5,
+      'profileImage': 'https://i.ibb.co/PMtd0Rd/Whats-App-Image-2024-11-30-at-17-11-43-cc12c275.jpg',
+    },
   ];
 
   List<Map<String, dynamic>> filteredUsers = [];

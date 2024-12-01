@@ -9,10 +9,13 @@ import 'screens/chat_box_screen.dart';
 import 'screens/jobs_screen.dart';
 import 'screens/post_detail_screen.dart';
 import "screens/personal_chat_screen.dart";
+import 'db/mongodb.dart'; 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MongoDatabase.connect();
+  await MongoDatabase.insertData(); // Insert the data after the connection is established
+  await MongoDatabase.close();
   runApp(const MyApp());
 }
 

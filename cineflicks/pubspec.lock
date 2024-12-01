@@ -29,10 +29,10 @@ packages:
     dependency: transitive
     description:
       name: bson
-      sha256: "5a286c4cb9944ab21287579d1f664eb8300daa91d80938349b1a244d165a6ba5"
+      sha256: "884c53a58564f4d0ed4a5ebe659ca9743603fe13c22908a5facbee2e21424c23"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.4"
+    version: "3.0.1"
   buffer:
     dependency: transitive
     description:
@@ -236,10 +236,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_android
-      sha256: "7aefc530db47d90d0580b552df3242440a10fe60814496a979aa67aa98b1fd47"
+      sha256: "93906636752ea4d4e778afa981fdfe7409f545b3147046300df194330044d349"
       url: "https://pub.dev"
     source: hosted
-    version: "4.6.1"
+    version: "4.3.1"
   geolocator_apple:
     dependency: transitive
     description:
@@ -460,18 +460,18 @@ packages:
     dependency: "direct main"
     description:
       name: mongo_dart
-      sha256: b0078dd433ecad7d250abaa6437cb720dd16cbfa9b8cc020460698e0703d7bc9
+      sha256: b7af1e1a0a0e7c026dfd9602251bf00247e8d9edf730a8bfdbf10c659021fb6d
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.3"
+    version: "0.8.2"
   mongo_dart_query:
     dependency: transitive
     description:
       name: mongo_dart_query
-      sha256: "7a0f3981c3d1df467040e5654696cb0bfde6ec6db86ba313118fb3e873cee657"
+      sha256: b8374cf4bb3bd9d7885d7af2d946a6020a2871651917f65f459c46d8f791c09b
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.2"
+    version: "3.0.0"
   packages_extensions:
     dependency: transitive
     description:
@@ -685,14 +685,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
-  sprintf:
-    dependency: transitive
-    description:
-      name: sprintf
-      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.0"
   stack_trace:
     dependency: transitive
     description:
@@ -785,10 +777,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: a5be9ef6618a7ac1e964353ef476418026db906c4facdedaa299b7a2e71690ff
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.1"
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
